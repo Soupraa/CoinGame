@@ -4,24 +4,25 @@ import model.enumeration.CoinFace;
 import model.interfaces.Coin;
 
 public class CoinImpl implements Coin {
-	private int coin1;
-	private int coin2;
 	
-	public CoinImpl(int coin1, int coin2) {
-		this.coin1 = coin1;
-		this.coin2 = coin2;
+	private int number;
+	private CoinFace face;
+	
+	public CoinImpl(int number, CoinFace face) {
+		this.number = number;
+		this.face = face;
 	}
 
 	@Override
 	public int getNumber() {
 		// TODO Auto-generated method stub
-		return 0;
+		return number;
 	}
 
 	@Override
 	public CoinFace getFace() {
 		// TODO Auto-generated method stub
-		return null;
+		return face;
 	}
 
 	@Override
@@ -32,8 +33,12 @@ public class CoinImpl implements Coin {
 
 	@Override
 	public boolean equals(Coin coin) {
-		// TODO Auto-generated method stub
-		return false;
+		if (number == coin.getNumber() && face == coin.getFace()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
