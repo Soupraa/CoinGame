@@ -1,5 +1,6 @@
 package model;
 
+
 import model.enumeration.CoinFace;
 import model.interfaces.Coin;
 
@@ -7,10 +8,17 @@ public class CoinImpl implements Coin {
 	
 	private int number;
 	private CoinFace face;
+	private double random = Math.random();
 	
-	public CoinImpl(int number, CoinFace face) {
+	
+	public CoinImpl(int number) {
 		this.number = number;
-		this.face = face;
+		if(random >= 0.5) {
+			this.face = CoinFace.HEADS;
+		}
+		if(random < 0.5) {
+			this.face = CoinFace.TAILS;			
+		}	
 	}
 
 	@Override
@@ -21,14 +29,16 @@ public class CoinImpl implements Coin {
 
 	@Override
 	public CoinFace getFace() {
-		// TODO Auto-generated method stub
-		return face;
+		return this.face;
 	}
-
 	@Override
 	public void flip() {
-		// TODO Auto-generated method stub
-		
+		if (this.face !=CoinFace.HEADS) {
+			face = CoinFace.HEADS;
+		if (this.face !=CoinFace.TAILS) {
+			face = CoinFace.TAILS;
+			}
+		}
 	}
 
 	@Override
@@ -39,6 +49,11 @@ public class CoinImpl implements Coin {
 		else {
 			return false;
 		}
+	}
+	@Override
+	public String toString() {
+		return "Coin " + number + ": "+ face;
+		
 	}
 
 }

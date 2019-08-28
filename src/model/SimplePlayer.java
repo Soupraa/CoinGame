@@ -2,18 +2,23 @@ package model;
 
 import model.enumeration.BetType;
 import model.interfaces.CoinPair;
+import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
 public class SimplePlayer implements Player {
 	
+	private static final BetType NO_BET = null;
 	private String playerID;
 	private String playerName;
-	private int initalPoints;
-	private int points;
+	private int initialPoints;
 	private int bet;
+	private BetType betType;
+	private CoinPair coinPair;
 
-	public SimplePlayer(String playerID, String playerName, int initalPoints) {
-		
+	public SimplePlayer(String playerID, String playerName, int initialPoints) {
+		this.playerID = playerID;
+		this.playerName = playerName;
+		this.initialPoints = initialPoints;
 	}
 
 	@Override
@@ -29,13 +34,13 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public int getPoints() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+		return initialPoints;
 	}
 
 	@Override
 	public void setPoints(int points) {
-		this.points=points;
+		points = initialPoints;
 
 	}
 
@@ -48,6 +53,7 @@ public class SimplePlayer implements Player {
 	@Override
 	public boolean setBet(int bet) {
 		if (bet > 0) {
+			resetBet();
 			return true;
 		} else {
 			return false;
@@ -56,38 +62,41 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public int getBet() {
-		// TODO Auto-generated method stub
-		return 0;
+		return bet;
 	}
 
 	@Override
 	public void setBetType(BetType betType) {
-		// TODO Auto-generated method stub
+		betType = this.betType;
 
 	}
 
 	@Override
 	public BetType getBetType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.betType;
 	}
 
 	@Override
 	public void resetBet() {
-		// TODO Auto-generated method stub
-
+		setBet(0);
+		setBetType(NO_BET);
+		
 	}
 
 	@Override
 	public CoinPair getResult() {
-		// TODO Auto-generated method stub
-		return null;
+		return coinPair;
 	}
 
 	@Override
 	public void setResult(CoinPair coinPair) {
-		// TODO Auto-generated method stub
+		this.coinPair=coinPair;
 
+	}
+	@Override
+	public String toString() {
+		return "Player id=" + playerID + ", Name="+playerName +", Bet="+ getBet() + ", BetType="+ getBetType() + ", Points"+ getPoints() + ""
+				+ ", RESULTS.."+ getResult();	
 	}
 
 }
