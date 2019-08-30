@@ -2,7 +2,6 @@ package model;
 
 import model.enumeration.BetType;
 import model.interfaces.CoinPair;
-import model.interfaces.GameEngine;
 import model.interfaces.Player;
 
 public class SimplePlayer implements Player {
@@ -11,9 +10,9 @@ public class SimplePlayer implements Player {
 	private String playerID;
 	private String playerName;
 	private int initialPoints;
-	private int bet;
+	private int playerbet;
 	private BetType betType;
-	private CoinPair coinPair;
+	private CoinPair coinResult;
 
 	public SimplePlayer(String playerID, String playerName, int initialPoints) {
 		this.playerID = playerID;
@@ -52,8 +51,8 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public boolean setBet(int bet) {
+		this.playerbet = bet;
 		if (bet > 0) {
-			resetBet();
 			return true;
 		} else {
 			return false;
@@ -62,18 +61,18 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public int getBet() {
-		return bet;
+		return playerbet;
 	}
 
 	@Override
 	public void setBetType(BetType betType) {
-		betType = this.betType;
+		this.betType = betType;
 
 	}
 
 	@Override
 	public BetType getBetType() {
-		return this.betType;
+		return betType;
 	}
 
 	@Override
@@ -85,18 +84,18 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public CoinPair getResult() {
-		return coinPair;
+		return coinResult;
 	}
 
 	@Override
 	public void setResult(CoinPair coinPair) {
-		this.coinPair=coinPair;
-
+		this.coinResult = coinPair;
+		
 	}
 	@Override
 	public String toString() {
-		return "Player id=" + playerID + ", Name="+playerName +", Bet="+ getBet() + ", BetType="+ getBetType() + ", Points"+ getPoints() + ""
-				+ ", RESULTS.."+ getResult();	
+		return "Player id=" + playerID + ", Name="+playerName +", Bet=" + playerbet + ", BetType="+ getBetType() + ", Points="+ getPoints() + ""
+				+ ", RESULTS..."+ getResult();	
 	}
 
 }
