@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,6 @@ import view.interfaces.GameEngineCallback;
 
 public class GameEngineImpl implements GameEngine {
 
-	private Player id;
-	private CoinPair coinPair;
-	private GameEngine engine;
 	private GameEngineCallback gameEngineCallback;
 	private Collection<Player> collection;
 	private List<GameEngineCallback> callback;
@@ -29,12 +27,12 @@ public class GameEngineImpl implements GameEngine {
 			int finalDelay2, int delayIncrement2) throws IllegalArgumentException {
 		gameEngineCallback = callback.get(0);
 		try {
-			coinPair = new CoinPairImpl();
+			CoinPairImpl coinPair = new CoinPairImpl();
 			while (initialDelay1 < finalDelay1 && initialDelay2 < finalDelay2) {
 				coinPair.getCoin1().flip();
 				coinPair.getCoin2().flip();
-				gameEngineCallback.playerCoinUpdate(player, coinPair.getCoin1(), engine);
-				gameEngineCallback.playerCoinUpdate(player, coinPair.getCoin2(), engine);
+				gameEngineCallback.playerCoinUpdate(player, coinPair.getCoin1(), this);
+				gameEngineCallback.playerCoinUpdate(player, coinPair.getCoin2(), this);
 				delayIncrement1++;
 				delayIncrement2++;
 				Thread.sleep(initialDelay1);
@@ -42,7 +40,8 @@ public class GameEngineImpl implements GameEngine {
 				initialDelay1 = (delayIncrement1 + initialDelay1);
 				initialDelay2 = (delayIncrement2 + initialDelay2);
 			}
-			gameEngineCallback.playerResult(player, coinPair, engine);
+			player.setResult(coinPair);
+			gameEngineCallback.playerResult(player, coinPair, this);
 		} catch (InterruptedException e) {
 
 		}
@@ -53,20 +52,21 @@ public class GameEngineImpl implements GameEngine {
 			int delayIncrement2) throws IllegalArgumentException {
 		gameEngineCallback = callback.get(0);
 		try {
-			coinPair = new CoinPairImpl();
+			CoinPairImpl coinPair = new CoinPairImpl();
 			while (initialDelay1 < finalDelay1 && initialDelay2 < finalDelay2) {
 				coinPair.getCoin1().flip();
 				coinPair.getCoin2().flip();
-				gameEngineCallback.spinnerCoinUpdate(coinPair.getCoin1(), engine);
-				gameEngineCallback.spinnerCoinUpdate(coinPair.getCoin2(), engine);
+				gameEngineCallback.spinnerCoinUpdate(coinPair.getCoin1(), this);
+				gameEngineCallback.spinnerCoinUpdate(coinPair.getCoin2(), this);
 				delayIncrement1++;
 				delayIncrement2++;
 				Thread.sleep(initialDelay1);
 				Thread.sleep(initialDelay2);
 				initialDelay1 = (delayIncrement1 + initialDelay1);
 				initialDelay2 = (delayIncrement2 + initialDelay2);
-			}
-			gameEngineCallback.spinnerResult(coinPair, engine);
+			}		
+			applyBetResults(coinPair);
+			gameEngineCallback.spinnerResult(coinPair, this);
 		} catch (InterruptedException e) {
 
 		}
@@ -87,11 +87,12 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public Player getPlayer(String id) {
-		if (id == this.id.getPlayerId()) {
-			return this.id;
-		} else {
-			return null;
+		for (Player i: collection) {
+			if(i.getPlayerId()==id) {
+				return i;
+			}
 		}
+		return null;
 	}
 
 	@Override
@@ -107,6 +108,7 @@ public class GameEngineImpl implements GameEngine {
 	@Override
 	public void addGameEngineCallback(GameEngineCallback gameEngineCallback) {
 		callback.add(gameEngineCallback);
+		
 	}
 
 	@Override
@@ -120,8 +122,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public Collection<Player> getAllPlayers() {
-		return collection;
-
+		return Collections.unmodifiableCollection(collection);
 	}
 
 	@Override
@@ -135,5 +136,4 @@ public class GameEngineImpl implements GameEngine {
 		}
 
 	}
-
 }

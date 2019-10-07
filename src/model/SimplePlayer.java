@@ -11,6 +11,7 @@ public class SimplePlayer implements Player {
 	private String playerName;
 	private int initialPoints;
 	private int playerbet;
+	private int newPoints;
 	private BetType betType;
 	private CoinPair coinResult;
 
@@ -33,13 +34,12 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public int getPoints() {
-	
-		return initialPoints;
+		return (newPoints+initialPoints);
 	}
 
 	@Override
 	public void setPoints(int points) {
-		points = initialPoints;
+		this.newPoints = points;
 
 	}
 
@@ -95,7 +95,7 @@ public class SimplePlayer implements Player {
 	@Override
 	public String toString() {
 		return "Player id=" + playerID + ", Name="+playerName +", Bet=" + playerbet + ", BetType="+ getBetType() + ", Points="+ getPoints() + ""
-				+ ", RESULTS..."+ getResult();	
+				+ ", RESULTS..."+ getResult().toString();	
 	}
 
 }

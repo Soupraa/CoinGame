@@ -10,6 +10,7 @@ import model.interfaces.Player;
  * @author Caspar Ryan
  * 
  */
+
 public enum BetType
 {
       COIN1
@@ -56,14 +57,16 @@ public enum BetType
 		@Override
 		public void applyWinLoss(Player player, CoinPair spinnerResult)
        	{
-			//no actiobn.
+			//no action.
        	}
 	};
 	public void addBetResult(Player player, int betValue)
 	{
-		player.setPoints(player.getPoints() + (player.getBet() * betValue));
 		if(player.getPoints() < 0) {
 			player.setPoints(0);
+		}
+		else {
+			player.setPoints(player.getPoints() + (player.getBet() * betValue));
 		}
 		
 	}
