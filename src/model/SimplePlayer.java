@@ -52,7 +52,7 @@ public class SimplePlayer implements Player {
 	@Override
 	public boolean setBet(int bet) {
 		this.playerbet = bet;
-		if (bet > 0) {
+		if (bet > 0 && bet < initialPoints) {
 			return true;
 		} else {
 			return false;
