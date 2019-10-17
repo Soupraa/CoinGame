@@ -19,6 +19,7 @@ public class SimplePlayer implements Player {
 		this.playerID = playerID;
 		this.playerName = playerName;
 		this.initialPoints = initialPoints;
+		this.betType = BetType.NO_BET;
 	}
 
 	@Override
@@ -77,9 +78,8 @@ public class SimplePlayer implements Player {
 
 	@Override
 	public void resetBet() {
-		setBet(0);
 		setBetType(NO_BET);
-		
+		setBet(0);		
 	}
 
 	@Override
