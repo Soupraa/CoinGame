@@ -32,7 +32,6 @@ public class GameEngineImpl implements GameEngine {
 		CoinPairImpl coinPair = new CoinPairImpl();
 		coinPair.getCoin1().flip();
 		coinPair.getCoin2().flip();
-		System.out.println("hi");
 		try {
 			while (initialDelay1 < finalDelay1 && initialDelay2 < finalDelay2) {
 				if (initialDelay1 < finalDelay1) {
@@ -82,7 +81,6 @@ public class GameEngineImpl implements GameEngine {
 		/* Initialize coin on random face */
 		coinPair.getCoin1().flip();
 		coinPair.getCoin2().flip();
-		for (GameEngineCallback cb : callback) {
 			try {
 				while (initialDelay1 < finalDelay1 && initialDelay2 < finalDelay2) {
 					if (initialDelay1 < finalDelay1) {
@@ -107,10 +105,9 @@ public class GameEngineImpl implements GameEngine {
 
 			}
 		}
-	}
+	
 
 	private void spinnerCoinUpdate(CoinPair coinPair, int number) {
-
 		for (int i = 0; i < callback.size(); i++) {
 			if (number == 1) {
 				callback.get(i).spinnerCoinUpdate(coinPair.getCoin1(), this);
@@ -121,9 +118,6 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	private void spinnerResult(CoinPair coinPair) {
-		while (callback.iterator().hasNext()) {
-			callback.iterator().next().spinnerResult(coinPair, this);
-		}
 		for (int i = 0; i < callback.size(); i++) {
 			callback.get(i).spinnerResult(coinPair, this);
 		}
@@ -131,9 +125,6 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public void applyBetResults(CoinPair spinnerResult) {
-//		for (Player j: collection) {
-//			j.getBetType().applyWinLoss(j, spinnerResult);
-//		}
 		Collection<Player> players = playerCollection.values();
 		Iterator<Player> it = players.iterator();
 
@@ -147,29 +138,23 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public void addPlayer(Player player) {
-//		collection.add(player);
 		playerCollection.put(player.getPlayerId(), player);
 
 	}
 
 	@Override
 	public Player getPlayer(String id) {
-		Player tempPlayer = null;
-		for(int i =0; i<this.playerCollection.size(); i++) {
-			if(this.playerCollection.get(i).getPlayerId().equals(id)) {
-				tempPlayer = playerCollection.get(i);
+		Collection<Player> players = playerCollection.values();
+		Iterator<Player> it = players.iterator();
+		while (it.hasNext()) {
+			Player tempPlayer = it.next();
+			tempPlayer = playerCollection.get(id);
+			return tempPlayer;
 			}
-		}
-		return tempPlayer;
+		return null;
 	}
-
 	@Override
 	public boolean removePlayer(Player player) {
-//		if (collection.remove(player)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
 		return playerCollection.remove(player.getPlayerId(), player);
 
 	}
@@ -195,25 +180,13 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public Collection<Player> getAllPlayers() {
-		// return Collections.unmodifiableCollection(collection);
 		return playerCollection.values();
 	}
 
 	@Override
 	public boolean placeBet(Player player, int bet, BetType betType) {
-		Collection<Player> players = playerCollection.values();
-		Iterator<Player> it = players.iterator();
-		while (it.hasNext()) {
-			player = it.next();
-			if (player.setBet(bet) == true && bet > 0) {
-				player.setBetType(betType);
-				return true;
-			} else {
-				player.resetBet();
-				return false;
-			}
-		}
+		player.setBetType(betType);
 		return player.setBet(bet);
-//
+
 	}
 }
